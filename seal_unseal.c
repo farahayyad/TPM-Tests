@@ -388,7 +388,11 @@ int main(int argc, char *argv[]) {
     Esys_Free(creationData2);
     Esys_Free(creationHash2);
     Esys_Free(creationTicket2);
-    Esys_Free(outData); 
+
+    // Clear key memory and free it 
+    OPENSSL_cleanse(aes_key, sizeof(aes_key));
+    OPENSSL_cleanse(outData->buffer, outData->size);
+    Esys_Free(outData);
 
     Esys_FlushContext(esysContext, primaryHandle);
     Esys_FlushContext(esysContext, loadedKeyHandle);
